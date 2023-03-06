@@ -26,7 +26,6 @@ import (
 	"log"
 	"os"
 	"strings"
-	"sync/atomic"
 	"time"
 )
 
@@ -38,7 +37,6 @@ type Client struct {
 	lastAttempt       time.Time
 	buffer            *buffer
 	syncInterval      time.Duration
-	msgCount          *uint64
 	bufferCh          chan *kgo.Record
 	probeMessage      *kgo.Record // this is a message we'll use to see if kafka is back up again, after being down.
 	logger            *log.Logger
@@ -98,7 +96,6 @@ func newClient(kafkaClient abstractKafka) (*Client, error) {
 	s := Client{
 		kafka:             kafkaClient,
 		buffer:            bu,
-		msgCount:          new(uint64),
 		bufferCh:          make(chan *kgo.Record, 1000),
 		failed:            false,
 		logger:            logger,
@@ -272,10 +269,6 @@ func rollback(ctx context.Context, client abstractKafka) {
 		return
 	}
 	fmt.Println("transaction rolled back")
-}
-
-func (c *Client) GetMsgCount() uint64 {
-	return atomic.LoadUint64(c.msgCount)
 }
 
 func (c *Client) Status() (string, error) {

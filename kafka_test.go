@@ -19,6 +19,9 @@ func magicMessage(id int) kgo.Record {
 func TestEverythingIsFine(t *testing.T) {
 	mock := newMockClient()
 	cl, err := newClient(mock)
+	if err != nil {
+		t.Fatal(err)
+	}
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	wg := sync.WaitGroup{}
@@ -56,6 +59,9 @@ func TestEverythingIsFine(t *testing.T) {
 func TestFailureAndRecovery(t *testing.T) {
 	mock := newMockClient()
 	cl, err := newClient(mock)
+	if err != nil {
+		t.Fatal(err)
+	}
 	cl.syncInterval = time.Millisecond // sync every millisecond.
 	cl.downProbeInterval = time.Millisecond * 3
 
@@ -95,6 +101,9 @@ func TestFailureAndRecovery(t *testing.T) {
 func TestSlow(t *testing.T) {
 	mock := newMockClient()
 	cl, err := newClient(mock)
+	if err != nil {
+		t.Fatal(err)
+	}
 	cl.syncInterval = time.Millisecond // sync every millisecond.
 	cl.downProbeInterval = time.Millisecond * 3
 
