@@ -5,6 +5,12 @@ and if it fails, it'll retry until it succeeds. It'll persist the in the buffer 
 
 It uses the amazing franz-go package to do the heavy lifting.
 
+## Things to note:
+
+Writing should never fail. If kafka fails, the module will buffer.
+
+Run() will block until the context is cancelled. On context cancel, it'll flush the buffer, if this fails then
+it'll return an error, so be sure to check the error.
 
 ## Usage
 
