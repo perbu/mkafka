@@ -1,4 +1,4 @@
-# pkafka
+# mkafka
 
 This package implements a buffered writer for Kafka. It'll try to write to Kafka asynchronously, 
 and if it fails, it'll retry until it succeeds. It'll persist the in the buffer until it succeeds.
